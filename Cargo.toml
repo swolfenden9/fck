@@ -2,7 +2,7 @@
 name = "fck"
 version = "0.1.0"
 edition = "2021"
-description = "A simple brainfuck parser, lexer and interpreter."
+description = "A simple Brainfuck parser, lexer and interpreter."
 license = "MIT OR Apache-2.0"
 
 [dependencies]

@@ -1,6 +1,6 @@
 //! Contains structs and functions for interpreting and running a Brainfuck AST.
 
-use std::io::{self, stdin, Read};
+use std::io::{stdin, Read};
 
 use crate::error::Error;
 use crate::parser::AstNode;
@@ -20,7 +20,7 @@ impl Interpreter {
         }
     }
 
-    /// Run the provided AST. 
+    /// Run the provided AST.
     pub fn run(&mut self, ast: &AstNode) -> Result<(), Error> {
         self.execute(ast)
     }
@@ -56,8 +56,11 @@ impl Interpreter {
             }
             AstNode::Output => print!("{}", self.memory[self.pointer] as char),
             AstNode::Input => {
-                let buffer = [u8; 1];
-                stdin().read_exact(&mut buffer);
+                let mut buffer = [0; 1];
+                match stdin().read_exact(&mut buffer) {
+                    Ok(_) => {}
+                    Err(e) => return Err(Error::Io { internal: e }),
+                };
                 self.memory[self.pointer] = buffer[0];
             }
             AstNode::Clear => self.memory[self.pointer] = 0,

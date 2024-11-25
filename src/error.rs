@@ -1,7 +1,10 @@
+//! Contains data structures for error handling in a Brainfuck program.
+
 use std::{fmt::Display, io};
 
 pub type Result<T> = std::result::Result<T, Error>;
 
+/// Represents an error that can occur during the lexing, parsing, and running of a Brainfuck program.
 #[derive(Debug)]
 pub enum Error {
     UnmatchedBracket { position: usize },

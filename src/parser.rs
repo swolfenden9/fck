@@ -1,8 +1,11 @@
+//! Contains utilities for parsing a string of Brainfuck tokens into an Abstract Syntax Tree (AST).
+
 use std::fmt::Display;
 
 use crate::error::Error;
 use crate::lexer::Token;
 
+/// Represents a node in a Brainfuck program's AST.
 #[derive(Debug, Clone)]
 pub enum AstNode {
     Sequence(Vec<AstNode>),
@@ -59,6 +62,7 @@ impl Display for AstNode {
     }
 }
 
+/// Parse a slice of `Token`s into an AST.
 pub fn parse(tokens: &[Token]) -> Result<AstNode, Error> {
     // Start parsing from the beginning of the token list
     let mut position = 0;

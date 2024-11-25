@@ -1,4 +1,18 @@
-#[derive(Debug, PartialEq)]
+//! Contains utilities for lexing a string of brainfuck source code into a vector of tokens.
+
+/// Represents a single command in a Brainfuck program.
+/// 
+/// Includes:
+/// - `Right(x)` - repeat `>` x times
+/// - `Right(x)` - repeat `>` x times
+/// - `Increment(x)` - repeat `+` x times
+/// - `Decrement(x)` - repeat `-` x times
+/// - Output - `.`
+/// - Input - `,`
+/// - LoopStart - `[`
+/// - LoopEnd - `]`
+/// - Clear - `[-]`
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Token {
     Right(usize),
     Left(usize),
@@ -11,6 +25,7 @@ pub enum Token {
     Clear, // Represents [-]
 }
 
+/// Lex a string of brainfuck source code into a vector of `Token`s.
 pub fn lex(source: &str) -> Result<Vec<Token>, crate::error::Error> {
     let mut tokens = Vec::new();
     let mut chars = source.chars().peekable();
@@ -60,6 +75,7 @@ pub fn lex(source: &str) -> Result<Vec<Token>, crate::error::Error> {
     Ok(tokens)
 }
 
+// I got no clue what this does
 fn consume(chars: &mut std::iter::Peekable<std::str::Chars>, c: char) -> usize {
     let mut count = 0;
     while chars.peek() == Some(&c) {

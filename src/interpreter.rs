@@ -1,12 +1,18 @@
+//! Contains structs and functions for interpreting and running a Brainfuck AST.
+
+use std::io::{self, stdin, Read};
+
 use crate::error::Error;
 use crate::parser::AstNode;
 
+/// Contains the current state of the Brainfuck program.
 pub struct Interpreter {
     memory: Vec<u8>,
     pointer: usize,
 }
 
 impl Interpreter {
+    /// Create a new, empty Brainfuck instance with and empty tape and a pointer at zero.
     pub fn new() -> Self {
         Self {
             memory: vec![0; 30_000],
@@ -14,6 +20,7 @@ impl Interpreter {
         }
     }
 
+    /// Run the provided AST. 
     pub fn run(&mut self, ast: &AstNode) -> Result<(), Error> {
         self.execute(ast)
     }
@@ -48,7 +55,11 @@ impl Interpreter {
                 self.memory[self.pointer] = self.memory[self.pointer].wrapping_sub(*n as u8)
             }
             AstNode::Output => print!("{}", self.memory[self.pointer] as char),
-            AstNode::Input => unimplemented!("input is not implemented"),
+            AstNode::Input => {
+                let buffer = [u8; 1];
+                stdin().read_exact(&mut buffer);
+                self.memory[self.pointer] = buffer[0];
+            }
             AstNode::Clear => self.memory[self.pointer] = 0,
             AstNode::Loop(body) => {
                 while self.memory[self.pointer] != 0 {
@@ -57,5 +68,10 @@ impl Interpreter {
             }
         }
         Ok(())
+    }
+
+    /// Get the value at the provided memory location.
+    pub fn memory(&self, pointer: usize) -> u8 {
+        self.memory[pointer]
     }
 }

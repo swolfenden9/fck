@@ -152,7 +152,11 @@ dependencies = [
 
 [[package]]
 name = "fck"
+<<<<<<< HEAD
 version = "0.1.2"
+=======
+version = "0.1.1"
+>>>>>>> 9c18f39df2269d3fdb4f87109dde158aca09535a
 dependencies = [
  "clap",
  "crossterm",

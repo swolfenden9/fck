@@ -1,6 +1,6 @@
 [package]
 name = "fck"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 description = "A simple Brainfuck parser, lexer and interpreter."
 license = "MIT or Apache-2.0"

@@ -1,9 +1,10 @@
 [package]
 name = "fck"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "A simple Brainfuck parser, lexer and interpreter."
-license = "MIT OR Apache-2.0"
+license = "MIT or Apache-2.0"
 
 [dependencies]
 clap = { version = "4.5.21", features = ["derive"] }
+crossterm = "0.28.1"

@@ -2,6 +2,8 @@
 
 use std::io::{stdin, Read};
 
+use crossterm::terminal::{disable_raw_mode, enable_raw_mode};
+
 use crate::error::Error;
 use crate::parser::AstNode;
 
@@ -57,10 +59,11 @@ impl Interpreter {
             AstNode::Output => print!("{}", self.memory[self.pointer] as char),
             AstNode::Input => {
                 let mut buffer = [0; 1];
-                match stdin().read_exact(&mut buffer) {
-                    Ok(_) => {}
-                    Err(e) => return Err(Error::Io { internal: e }),
-                };
+                enable_raw_mode()?; // Enter raw mode to capture input
+                stdin().read_exact(&mut buffer)?;
+                disable_raw_mode()?; // Exit raw mode
+                print!("{}", buffer[0] as char);
+
                 self.memory[self.pointer] = buffer[0];
             }
             AstNode::Clear => self.memory[self.pointer] = 0,
